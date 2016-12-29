@@ -12,12 +12,16 @@ bot.start()
 #Put the Create2 into 'safe' mode so we can drive it
 bot.safe()
 
+bot.kinect_power()
+
+time.sleep(10)
+
 #Tell the Create2 to drive straight forward at a speed of 100 mm/s
 
-bot.drive_direct(100, 100)
+#bot.drive_direct(100, 100)
 
-time.sleep(3)
+#time.sleep(3)
 
-bot.drive_direct(0,0)
+#bot.drive_direct(0,0)
 
 bot.destroy()

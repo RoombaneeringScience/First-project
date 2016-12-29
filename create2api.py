@@ -372,10 +372,10 @@ class Create2(object):
         """
         #self.SCI.send(self.config.data['opcodes']['start'],0)
 
-    def motors(self):
-        """Not implementing this for now.
+    def kinect_power(self):
+        """control the motors and their direction
         """
-        #self.SCI.send(self.config.data['opcodes']['start'],0)
+        self.SCI.send(self.config.data['opcodes']['motors'],2 & 0xff)
 
     def motors_pwm(self, main_pwm, side_pwm, vacuum_pwm):
         """Serial sequence: [144] [Main Brush PWM] [Side Brush PWM] [Vacuum PWM]
