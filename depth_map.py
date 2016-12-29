@@ -39,7 +39,7 @@ points = landmarks.keys()
 x = [e[0] for e in points]
 y = [e[1] for e in points]
 
-plt.scattter(y,x)
+plt.scattter(x,y)
 plt.show()
 
 bot.destory()
