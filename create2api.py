@@ -375,7 +375,7 @@ class Create2(object):
     def kinect_power(self):
         """control the motors and their direction
         """
-        self.SCI.send(self.config.data['opcodes']['motors'],2 & 0xff)
+        self.SCI.send(self.config.data['opcodes']['motors'],(4,))
 
     def motors_pwm(self, main_pwm, side_pwm, vacuum_pwm):
         """Serial sequence: [144] [Main Brush PWM] [Side Brush PWM] [Vacuum PWM]

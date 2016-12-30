@@ -8,6 +8,7 @@ import cv2
 bot = create2api.Create2()
 bot.start()
 bot.safe()
+bot.kinect_power()
 
 X = 0
 Y = 0
@@ -48,11 +49,8 @@ points = landmarks.keys()
 x = [e[0] for e in points]
 y = [e[1] for e in points]
 
-<<<<<<< HEAD
-plt.scattter(x,y)
-=======
 plt.scatter(y,x)
 plt.scatter([0 for i in range(len(pos))], pos, color='red')
->>>>>>> origin/master
+
 plt.show()
 bot.destroy()
