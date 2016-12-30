@@ -9,11 +9,11 @@ try:
     while True:
         ultimate_buffer = ''
         while True:
-            receiving_buffer = client_connection.recv(1024)
+            receiving_buffer = client_connection.recv(4096)
             ultimate_buffer=''
             if not receiving_buffer: break
-            ultimate_buffer+= receiving_buffer
-            print '-',
+            ultimate_buffer += receiving_buffer
+            print receiving_buffer
         depth = np.ndarray(ultimate_buffer)
         depth = cv2.cvtColor(data,cv2.COLOR_RGB2BGR)
         cv2.imshow('Depth image',depth)

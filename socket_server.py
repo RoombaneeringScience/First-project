@@ -23,4 +23,5 @@ while True:
     print "connec pythotion recived" + str(addr)
     array,_ = freenect.sync_get_video()
     c.sendall(str(array))
+    s.sendto(msg, (ip, 50000))
 c.close()
