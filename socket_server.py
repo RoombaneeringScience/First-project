@@ -1,6 +1,7 @@
 import socket
 import create2api
 import freenect
+import zmq
 #   robot over serial
 bot = create2api.Create2()
 #Start the Create2
@@ -22,6 +23,11 @@ while True:
     c, addr = s.accept()
     print "connec pythotion recived" + str(addr)
     array,_ = freenect.sync_get_video()
-    c.sendall(str(array))
-    s.sendto(msg, (ip, 50000))
-c.close()
+    """send a numpy array with metadata"""
+    md = dict(
+        dtype = str(A.dtype),
+        shape = A.shape,
+    )
+    c.send_json(md, 0|zmq.SNDMORE)
+    c.send(A, 0, copy=True, track=False)
+    c.close()

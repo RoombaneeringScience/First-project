@@ -1,21 +1,15 @@
 import socket               # Import socket module
 import numpy as np
-import cv2
 s = socket.socket()         # Create a socket object
 host = "192.168.1.102"      # Get local machine name
 port = 8000                 # Reserve a port for your service.
 s.connect((host, port))
-try:
-    while True:
-        ultimate_buffer = ''
-        while True:
-            receiving_buffer = client_connection.recv(4096)
-            ultimate_buffer=''
-            if not receiving_buffer: break
-            ultimate_buffer += receiving_buffer
-            print receiving_buffer
-        depth = np.ndarray(ultimate_buffer)
-        depth = cv2.cvtColor(data,cv2.COLOR_RGB2BGR)
-        cv2.imshow('Depth image',depth)
-except KeyboardInterrupt:
-    s.close                     # Close the socket when done
+
+md = socket.recv_json(flags=0)
+msg = socket.recv(flags=0, copy=True, track=False)
+buf = buffer(msg)
+A = numpy.frombuffer(buf, dtype=md['dtype'])
+print A.reshape(md['shape'])
+print md
+#depth = cv.cvtColor(data,cv2.COLOR_RGB2BGR)
+#cv2.imshow('Depth image',depth)
