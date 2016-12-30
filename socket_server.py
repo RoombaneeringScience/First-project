@@ -14,7 +14,7 @@ array,_ = freenect.sync_get_depth()
 s = socket.socket()
 port = 8000
 
-s.bind(("192.168.1.102", port))
+s.bind(("localhost", port))
 
 s.listen(5)
 
