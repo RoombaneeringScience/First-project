@@ -27,7 +27,7 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 bot.drive_straight(0)
                 bot.destroy()
-                sys.exit()
+                pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     bot.drive_direct(100, 100)
