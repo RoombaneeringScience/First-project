@@ -28,12 +28,12 @@ if __name__ == "__main__":
                 bot.drive_straight(0)
                 bot.destroy()
                 sys.exit()
-            if event.type == pygame.K_UP:
-                bot.drive_direct(100, 100)
-            elif event.type == pygame.K_DOWN:
-                bot.drive_direct(-100, -100)
-            elif event.type == pygame.K_LEFT:
-                bot.drive_direct(100, -100)
-            elif event.type == pygame.K_RIGHT:
-                bot.drive_direct(-100, 100)
-                
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    bot.drive_direct(100, 100)
+                elif event.key == pygame.K_DOWN:
+                    bot.drive_direct(-100, -100)
+                elif event.key == pygame.K_LEFT:
+                    bot.drive_direct(100, -100)
+                elif event.key == pygame.K_RIGHT:
+                    bot.drive_direct(-100, 100)
