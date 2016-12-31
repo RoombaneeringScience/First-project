@@ -29,16 +29,16 @@ if __name__ == "__main__":
     while 1:
         #frame = get_video()
         #cv2.imshow('RGB image',frame)
-
-        if keys[K_UP]:
+        keys=pygame.key.get_pressed()
+        if keys[pygame.K_UP]:
             bot.drive_direct(100, 100)
-        elif keys[K_DOWN]:
+        elif keys[pygame.K_DOWN]:
             bot.drive_direct(-100, -100)
-        elif keys[K_LEFT]:
+        elif keys[pygame.K_LEFT]:
             bot.drive_direct(100, -100)
-        elif keys[K_LEFT]:
+        elif keys[pygame.K_LEFT]:
             bot.drive_direct(-100, 100)
-        elif k = 27:
+        elif keys[pygame.K_ESCAPE]:
             bot.drive_straight(0)
             break
 
