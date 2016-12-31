@@ -24,17 +24,19 @@ if __name__ == "__main__":
     while 1:
         frame = get_video()
         cv2.imshow('RGB image',frame)
-        k = cv2.waitKey(5)
+        k = cv2.waitKey(1)
 
         if k == 65362:
             bot.drive_direct(100, 100)
         elif k == 65364:
             bot.drive_direct(-100, -100)
         elif k == 65363:
-            bot.drive_direct(100, -100)
-        elif k == 65361:
             bot.drive_direct(-100, 100)
-        elif k == 27:
+        elif k == 65361:
+            bot.drive_direct(100, -100)
+        elif k == -1:
+	    bot.drive_straight(0)
+	elif k == 27:
             bot.drive_straight(0)
             break
 
