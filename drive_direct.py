@@ -27,13 +27,13 @@ if __name__ == "__main__":
         '''
         if keys[K_UP]:
             bot.drive_direct(100, 100)
-        else if keys[K_DOWN]:
+        elif keys[K_DOWN]:
             bot.drive_direct(-100, -100)
-        else if keys[K_LEFT]:
+        elif keys[K_LEFT]:
             bot.drive_direct(100, -100)
-        else if keys[K_LEFT]:
+        elif keys[K_LEFT]:
             bot.drive_direct(-100, 100)
-        else if keys[K_ESCAPE].
+        elif keys[K_ESCAPE]:
             bot.drive_straight(0)
             break
         '''
