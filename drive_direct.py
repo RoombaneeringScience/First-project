@@ -37,3 +37,5 @@ if __name__ == "__main__":
                     bot.drive_direct(100, -100)
                 elif event.key == pygame.K_RIGHT:
                     bot.drive_direct(-100, 100)
+                else:
+                    bot.drive_straight(0)
