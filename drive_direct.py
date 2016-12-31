@@ -1,6 +1,7 @@
 import create2api
 import time
 import json
+import freenect
 
 #function to get RGB image from kinect
 def get_video():
