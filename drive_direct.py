@@ -34,7 +34,7 @@ if __name__ == "__main__":
             bot.drive_direct(100, -100)
         elif k == 65361:
             bot.drive_direct(-100, 100)
-        elif k = 27:
+        elif k == 27:
             bot.drive_straight(0)
             break
 
