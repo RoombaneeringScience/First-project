@@ -3,7 +3,7 @@ import time
 import json
 import freenect
 import cv2
-
+import pygame
 #function to get RGB image from kinect
 def get_video():
     array,_ = freenect.sync_get_video()
@@ -30,16 +30,18 @@ if __name__ == "__main__":
         frame = get_video()
         cv2.imshow('RGB image',frame)
         keys=pygame.key.get_pressed()
-        if keys[K_UP]:
+        if keys[pygame.K_UP]:
             bot.drive_direct(100, 100)
-        elif keys[K_DOWN]:
+        elif keys[pygame.K_DOWN]:
             bot.drive_direct(-100, -100)
-        elif keys[K_LEFT]:
+        elif keys[pygame.K_LEFT]:
             bot.drive_direct(100, -100)
-        elif keys[K_LEFT]:
+        elif keys[pygame.K_LEFT]:
             bot.drive_direct(-100, 100)
-        elif k = 27:
+        elif keys[pygame.K_ESCAPE]:
             bot.drive_straight(0)
             break
+	else:
+   	    bot.drive_straight(0)
 
     bot.destroy()
