@@ -21,20 +21,25 @@ if __name__ == "__main__":
     #Put the Create2 into 'safe' mode so we can drive it
     bot.safe()
     bot.kinect_power()
+    pygame.init()
+    screen = pygame.display.set_mode((10, 10))
+    pygame.display.set_caption('Pygame Keyboard Test')
+    pygame.mouse.set_visible(0)
+
     while 1:
         frame = get_video()
         cv2.imshow('RGB image',frame)
-        k = cv2.waitKey(5)
+        keys=pygame.key.get_pressed()
 
-        if k == 65362:
+        if keys[K_UP]:
             bot.drive_direct(100, 100)
-        elif k == 65364:
+        elif keys[K_DOWN]:
             bot.drive_direct(-100, -100)
-        elif k == 65363:
+        elif keys[K_LEFT]:
             bot.drive_direct(100, -100)
-        elif k == 65361:
+        elif keys[K_LEFT]:
             bot.drive_direct(-100, 100)
-        elif k == 27:
+        elif k = 27:
             bot.drive_straight(0)
             break
 
