@@ -1,7 +1,7 @@
 import socket
 import create2api
 import freenect
-import zmq
+import numpy as np
 #   robot over serial
 bot = create2api.Create2()
 #Start the Create2
@@ -10,24 +10,22 @@ bot.start()
 bot.safe()
 bot.kinect_power()
 
+print "getting kinect"
 array,_ = freenect.sync_get_depth()
 
 s = socket.socket()
 port = 8000
 
-s.bind(("localhost", port))
+s.bind(("192.168.1.102", port))
 
 s.listen(5)
-
+print "waiting for connection"
 while True:
     c, addr = s.accept()
     print "connec pythotion recived" + str(addr)
-    array,_ = freenect.sync_get_video()
-    """send a numpy array with metadata"""
-    md = dict(
-        dtype = str(A.dtype),
-        shape = A.shape,
-    )
-    c.send_json(md, 0|zmq.SNDMORE)
-    c.send(A, 0, copy=True, track=False)
+    array,_ = freenect.sync_get_depth()
+    #array = np.array([1,2,3,4,5])
+    "send a numpy array with metadata"
+    print array.flatten()
+    c.sendall(array.flatten().astype(int))
     c.close()
