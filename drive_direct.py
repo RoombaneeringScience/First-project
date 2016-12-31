@@ -3,6 +3,7 @@ import time
 import json
 import freenect
 import cv2
+import pygame
 
 #function to get RGB image from kinect
 def get_video():
