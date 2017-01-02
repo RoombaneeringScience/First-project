@@ -1,9 +1,7 @@
 import create2api
 import time
-import json
-import freenect
-import cv2
 import pygame
+import math
 
 
 if __name__ == "__main__":
@@ -20,9 +18,24 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((30,30))
     pygame.display.set_caption('Pygame Keyboard Test')
 
+    #initalizing the state vector, note there are no landmarks yet
+    #[x ,y, theta column vector]
+    X = np.matrix([0, 0, 0]).transpose()
+
+    ENCODER_STEP = 72/508.8
+
     while 1:
-        #frame = get_video()
-        #cv2.imshow('RGB image',frame)
+        #get encoder data
+        bot.get_packet(101)
+
+        left_encoder = bot.sensor_state['left encoder counts']
+        right_encoder = bot.sensor_state['right encoder counts']
+
+        ds = 0.5*(left_encoder + right_encoder)*ENCODER_STEP
+        dangle = ((left_encoder - right_encoder)*ENCODER_STEP)/235
+
+        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 bot.drive_straight(0)
