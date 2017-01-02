@@ -17,8 +17,8 @@ class KalmanFilter():
         self.R = R
         self.Q = Q
 
-        self.P = np.zeros(A.shape[0], A.shape[1])
-        self.x = np.zeros(A.shape[0])
+        self.P = np.zeros(A.shape)
+        self.x = np.zeros(A.shape[0]).transpose()
 
     def update(self, z, u):
         a_priori_P = self.A*self.P*self.A.transpose() + self.Q

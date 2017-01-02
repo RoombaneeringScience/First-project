@@ -4,7 +4,7 @@ import pygame
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-
+import kalman
 VELOCITIES = {pygame.K_UP: (100, 100), pygame.K_DOWN: (-100, -100), pygame.K_LEFT: (100, -100), pygame.K_RIGHT: (-100, 100)}
 
 def initialize_kalman_filter():
@@ -19,7 +19,7 @@ def initialize_kalman_filter():
     R = np.matrix([[0.1, 0, 0], [0, 0.1, 0], [0, 0, 0.05]])
     Q = R
 
-    return KalmanFilter(A, B, D, R, Q)
+    return kalman.KalmanFilter(A, B, D, R, Q)
 
 if __name__ == "__main__":
 
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     t = time.time()
 
     plt.ion()
-
+    v = (0,0)
     while True:
         #get encoder data
         bot.get_packet(101)
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         ds = 0.5*(left_encoder + right_encoder)*ENCODER_STEP
         dangle = ((left_encoder - right_encoder)*ENCODER_STEP)/235.
         x = kalman_filter.get_x()
-        z = np.matrix([x[0] + ds*math.cos(x[2] + dangle/2.), x[1] + ds*math.sin(x[2] + dangle/2.), theta + dangle])
+        z = np.matrix([x[0] + ds*math.cos(x[2] + dangle/2.), x[1] + ds*math.sin(x[2] + dangle/2.), x[2] + dangle])
 
 
         dt = (time.time() - t)/1000000.
