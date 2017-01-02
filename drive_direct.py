@@ -2,7 +2,24 @@ import create2api
 import time
 import pygame
 import math
+import numpy as np
+import matplotlib.pyplot as plt
 
+VELOCITIES = {pygame.K_UP: (100, 100), pygame.K_DOWN: (-100, -100), pygame.K_LEFT: (100, -100), pygame.K_RIGHT: (-100, 100)}
+
+def initialize_kalman_filter():
+    A = np.eye(3)
+    def B(x, u):
+        v, w = u
+        dx = v*math.cos(x[2] + w/2.)
+        dy = v*math.sin(x[2] + w/2.)
+        dtheta = w
+        return (dx, dy, dtheta)
+    D = np.eye(3)
+    R = np.matrix([[0.1, 0, 0], [0, 0.1, 0], [0, 0, 0.05]])
+    Q = R
+
+    return KalmanFilter(A, B, D, R, Q)
 
 if __name__ == "__main__":
 
@@ -18,13 +35,14 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((30,30))
     pygame.display.set_caption('Pygame Keyboard Test')
 
-    #initalizing the state vector, note there are no landmarks yet
-    #[x ,y, theta column vector]
-    X = np.matrix([0, 0, 0]).transpose()
-
     ENCODER_STEP = 72/508.8
 
-    while 1:
+    kalman_filter = initialize_kalman_filter();
+    t = time.time()
+
+    plt.ion()
+
+    while True:
         #get encoder data
         bot.get_packet(101)
 
@@ -32,9 +50,18 @@ if __name__ == "__main__":
         right_encoder = bot.sensor_state['right encoder counts']
 
         ds = 0.5*(left_encoder + right_encoder)*ENCODER_STEP
-        dangle = ((left_encoder - right_encoder)*ENCODER_STEP)/235
+        dangle = ((left_encoder - right_encoder)*ENCODER_STEP)/235.
+        x = kalman_filter.get_x()
+        z = np.matrix([x[0] + ds*math.cos(x[2] + dangle/2.), x[1] + ds*math.sin(x[2] + dangle/2.), theta + dangle])
 
-        
+
+        dt = (time.time() - t)/1000000.
+        speed = 0.5*(v[0] + v[1])*dt
+        w = (v[1] - v[0])/235.*dt
+
+        kalman_filter.update(z, (speed, w))
+        plt.scatter(x[0], x[1])
+        plt.pause(0.05)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -42,13 +69,8 @@ if __name__ == "__main__":
                 bot.destroy()
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    bot.drive_direct(100, 100)
-                elif event.key == pygame.K_DOWN:
-                    bot.drive_direct(-100, -100)
-                elif event.key == pygame.K_LEFT:
-                    bot.drive_direct(100, -100)
-                elif event.key == pygame.K_RIGHT:
-                    bot.drive_direct(-100, 100)
+                if event.key in VELOCITIES.keys():
+                    v = VELOCITIES[event.key]
                 else:
-                    bot.drive_straight(0)
+                    v = (0, 0)
+                bot.drive(v[0], v[1])
