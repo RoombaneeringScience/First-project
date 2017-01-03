@@ -5,7 +5,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import kalman
-VELOCITIES = {pygame.K_UP: (100, 100), pygame.K_DOWN: (-100, -100), pygame.K_LEFT: (100, -100), pygame.K_RIGHT: (-100, 100)}
+VELOCITIES = {pygame.K_UP: (500, 500), pygame.K_DOWN: (-100, -100), pygame.K_LEFT: (100, -100), pygame.K_RIGHT: (-100, 100)}
 
 def initialize_kalman_filter():
     A = np.eye(3)
@@ -14,7 +14,7 @@ def initialize_kalman_filter():
         dx = v*math.cos(x[2] + w/2.)
         dy = v*math.sin(x[2] + w/2.)
         dtheta = w
-        return (dx, dy, dtheta)
+        return np.matrix([dx, dy, dtheta]).transpose()
     D = np.eye(3)
     R = np.matrix([[0.1, 0, 0], [0, 0.1, 0], [0, 0, 0.05]])
     Q = R
@@ -52,16 +52,18 @@ if __name__ == "__main__":
         ds = 0.5*(left_encoder + right_encoder)*ENCODER_STEP
         dangle = ((left_encoder - right_encoder)*ENCODER_STEP)/235.
         x = kalman_filter.get_x()
-        z = np.matrix([x[0] + ds*math.cos(x[2] + dangle/2.), x[1] + ds*math.sin(x[2] + dangle/2.), x[2] + dangle])
-
-
+	z = np.zeros((3,1))
+        z[0] = x[0] + ds*math.cos(x[2] + dangle/2) 
+	z[1] = x[1] + ds*math.sin(x[2] + dangle/2.)
+        z[2] = x[2] + dangle
+	
         dt = (time.time() - t)/1000000.
         speed = 0.5*(v[0] + v[1])*dt
         w = (v[1] - v[0])/235.*dt
 
         kalman_filter.update(z, (speed, w))
-        plt.scatter(x[0], x[1])
-        plt.pause(0.05)
+ #       plt.scatter(x[0], x[1])
+#        plt.pause(0.05)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -73,4 +75,5 @@ if __name__ == "__main__":
                     v = VELOCITIES[event.key]
                 else:
                     v = (0, 0)
-                bot.drive(v[0], v[1])
+		print v
+                bot.drive_direct(v[0], v[1])

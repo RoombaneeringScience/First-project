@@ -18,19 +18,18 @@ class KalmanFilter():
         self.Q = Q
 
         self.P = np.zeros(A.shape)
-        self.x = np.zeros(A.shape[0]).transpose()
+        self.x = np.matrix(np.zeros(A.shape[0])).transpose()
 
     def update(self, z, u):
         a_priori_P = self.A*self.P*self.A.transpose() + self.Q
-        a_priori_S = self.D*a_priori_p*self.D.transpose() + self.R
-        a_priori_x = self.A*self.x + self.B(x, u)
-        a_priori_z = self.D*a_priori_x
+        a_priori_S = self.D*a_priori_P*self.D.transpose() + self.R
+        a_priori_x = self.A*self.x + self.B(self.x, u)
+	a_priori_z = self.D*a_priori_x
 
-        W = a_priori_P*self.D.transpose()*lingalg.inv(a_priori_S)
+        W = a_priori_P*self.D.transpose()*linalg.inv(a_priori_S)
 
         self.P = a_priori_P - W*a_priori_S*W.transpose()
-        self.x = a_posteriori_state = a_priori_x + W*(z - a_priori_z)
-
+	self.x = a_priori_x + W*(z - a_priori_z)
     def get_x(self):
         return self.x
 
