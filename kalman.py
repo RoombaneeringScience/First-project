@@ -24,7 +24,7 @@ class KalmanFilter():
         a_priori_P = self.A*self.P*self.A.transpose() + self.Q
         a_priori_S = self.D*a_priori_P*self.D.transpose() + self.R
         a_priori_x = self.A*self.x + self.B(self.x, u)
-	a_priori_z = self.D*a_priori_x
+	    a_priori_z = self.D*a_priori_x
 
         W = a_priori_P*self.D.transpose()*linalg.inv(a_priori_S)
 
@@ -35,4 +35,3 @@ class KalmanFilter():
 
     def get_P(self):
         return self.P
-
