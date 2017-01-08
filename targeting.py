@@ -7,11 +7,11 @@ display = SimpleCV.Display()
 cam = SimpleCV.Camera()
 normaldisplay = False
 
-bot = create2api.Create2()
+#bot = create2api.Create2()
 #Start the Create2
-bot.start()
+#bot.start()
 #Put the Create2 into 'safe' mode so we can drive it
-bot.safe()
+#bot.safe()
 
 while display.isNotDone():
 	if display.mouseRight:
@@ -19,7 +19,7 @@ while display.isNotDone():
 		print "Display Mode:", "Normal" if normaldisplay else "Segmented"
 
 	img = cam.getImage()
-	dist = img.hueDistance((255,0,0)).dilate(2).binarize(60)
+	dist = img.hueDistance((255,255,0)).dilate(2).binarize(60)
 
 	segmented = dist
 	blobs = segmented.findBlobs()
@@ -27,28 +27,24 @@ while display.isNotDone():
 	if blobs:
 		max_area = 0
 		max_blob = {}
-		for blob in blobs:
-			if blob.isRectangle():
-				if blob.area() > max_area:
-					max_area = blob.area()
-					max_blob = blob
-		bot.drive_straight(0)
-		if max_blob:
-			if max_blob.area() > 30:
-				max_blob.drawHull()
-				segmented.drawCircle((max_blob.x, max_blob.y), 5, SimpleCV.Color.BLUE, 2)
-				errory = max_blob.y - 370
-				errorx = max_blob.x - 700
-				Py = 0.2
-				Px = 0.2
 
-				difference = errorx*Px
-				speed = Py*errory
-				bot.drive_direct(speed - difference, speed+difference)
+		blobs = blobs[len(blobs)-2:]
+		#bot.drive_straight(0)
+		for blob in blobs:
+			if blob.area() > 30:
+				blob.drawHull()
+				segmented.drawCircle((blob.x, blob.y), 5, SimpleCV.Color.BLUE, 2)
+
+		blob1 = blobs[0]
+		blob2 = blobs[1]
+
+		distance = abs(blob1.x - blob2.x)
+		offest = 0.5*(blob1.x + blob2.x)
+		print (distance, offest)
 
 	if normaldisplay:
 		img.show()
 	else:
 		segmented.show()
 
-bot.destroy()
+#bot.destroy()
