@@ -5,7 +5,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import kalman
-VELOCITIES = {pygame.K_UP: (500, 500), pygame.K_DOWN: (-100, -100), pygame.K_LEFT: (100, -100), pygame.K_RIGHT: (-100, 100)}
+VELOCITIES = {pygame.K_UP: (100, 100), pygame.K_DOWN: (-100, -100), pygame.K_LEFT: (100, -100), pygame.K_RIGHT: (-100, 100)}
 
 def initialize_kalman_filter():
     A = np.eye(3)
