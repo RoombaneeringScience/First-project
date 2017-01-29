@@ -7,12 +7,6 @@ display = SimpleCV.Display()
 cam = SimpleCV.Camera()
 normaldisplay = False
 
-#bot = create2api.Create2()
-#Start the Create2
-#bot.start()
-#Put the Create2 into 'safe' mode so we can drive it
-#bot.safe()
-
 while display.isNotDone():
 	if display.mouseRight:
 		normaldisplay = not(normaldisplay)
@@ -46,5 +40,3 @@ while display.isNotDone():
 		img.show()
 	else:
 		segmented.show()
-
-#bot.destroy()
